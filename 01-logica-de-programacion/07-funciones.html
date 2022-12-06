@@ -9,20 +9,25 @@
             document.write("<br>");
         }
     }
+
+    function imprimir(frase) {
+        document.write(frase);
+        saltarLineaHTML(3);
+    }
     
+    // Este codigo calcula la eficiencia de los combustibles
     let tanque = 40;
+    
     let recoGas = 480;
     let efGas = recoGas / tanque;
 
-    let saltoLinea = "<br><br><br>";
-
-    document.write("Eficiencia gasolina: " + efGas + " km/l");
-    document.write(saltoLinea);
     let recoAlco = 300;
     let efAlco = recoAlco / tanque;
-    document.write("Eficiencia alcohol: " + efAlco + " km/l");
-    document.write(saltoLinea);
-    saltarLineaHTML(4);
-    document.write("Ultima linea");
+
+    let saltoLinea = "<br><br><br>";
+
+    imprimir("Eficiencia gasolina: " + efGas + " km/l");
+    imprimir("Eficiencia alcohol: " + efAlco + " km/l");
+    imprimir("Ultima linea");
 
 </script>
