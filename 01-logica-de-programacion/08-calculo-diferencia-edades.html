@@ -1,0 +1,26 @@
+<meta charset="UTF-8">
+
+<h3>Programa</h3>
+
+<script>
+
+    function saltarLineaHTML(times) {
+        for(let i = 0; i < times; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write("<big>" + frase + "</big>");
+        saltarLineaHTML(3);
+    }
+
+    // Esta funcion calcula la diferencia de edades
+    function diferencia(edad1, edad2) {
+        imprimir("Nuestra diferencia de edad es " + (edad1 - edad2) + ".");
+    }
+    
+    
+    diferencia(25, 20);
+
+</script>
