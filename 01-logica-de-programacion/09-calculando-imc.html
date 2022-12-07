@@ -16,13 +16,14 @@
     }
 
     // Esta funcion calcula el IMC
-    function calcularIMC(peso, altura, nombre) {
+    function calcularIMC(peso, altura) {
         return Math.round(peso / (altura ** 2));
     }
 
-    let miNombre = "Lev"
-    let miPeso = 80;
-    let miAltura = 1.71;
+    
+    let miNombre = prompt("Cual es su nombre?");
+    let miPeso = prompt("Cual es su peso?");
+    let miAltura = prompt("Cual es su altura?")
 
     imprimir("El IMC de " + miNombre + " es " + calcularIMC(miPeso, miAltura));
 
