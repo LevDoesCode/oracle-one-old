@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+
+<h3>Adivina el numero</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write("<big>" + frase + "</big>");
+        saltarLinea(3);
+    }
+
+    let numeroSecreto = Math.round(Math.random() * 10);
+    let numeroUsuario = parseInt(prompt("Ingrese un numero entre 0-10"));
+    
+    if (numeroSecreto != numeroUsuario) {
+        var texto = "Error! ";
+    }
+    else {
+        var texto = "Correcto! ";
+    }
+
+    imprimir(texto + "El numero secreto era " + numeroSecreto + ".");
+
+</script>
