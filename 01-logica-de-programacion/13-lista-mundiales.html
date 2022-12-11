@@ -1,0 +1,28 @@
+<meta charset="UTF-8">
+
+<h3>Lista de años de mundial FIFA</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write("<big>" + frase + "</big>");
+        saltarLinea(3);
+    }
+
+    let startYear = parseInt(prompt("Ingrese año de inicio"));
+    let endYear = parseInt(prompt("Ingrese año de fin"));
+
+    while (startYear <= endYear) {
+        imprimir("Hubo mundia de la FIFA en el año " + startYear);
+        startYear += 4;
+    }
+
+    imprimir("Fin");
+
+</script>
