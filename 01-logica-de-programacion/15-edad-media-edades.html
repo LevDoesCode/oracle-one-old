@@ -1,0 +1,39 @@
+<meta charset="UTF-8">
+
+<h3>Tablas de multiplicar</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write(frase);
+        saltarLinea(1);
+    }
+
+    let edadPadre = 42;
+    let edadMadre = 38;
+    let edadHijo = 15;
+    let edadHija = 12;
+    
+    let totalEdad = edadPadre + edadMadre+edadHijo+edadHija;
+    let mediaEdad = totalEdad / 4;
+
+    imprimir("La media de las edades es " + mediaEdad);
+
+    let cantMiembros = parseInt(prompt("Ingrese la cantidad de miembros"));
+
+    let miembro = 1;
+    let totalEdades = 0;
+    while (miembro <= cantMiembros) {
+        totalEdades += parseInt(prompt("Edad del miembro " + miembro));
+        miembro++
+    }
+
+    imprimir("La media de las edades es " + totalEdades / cantMiembros);
+
+</script>
