@@ -1,0 +1,36 @@
+<meta charset="UTF-8">
+
+<h3>Tablas de multiplicar</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write(frase);
+        saltarLinea(1);
+    }
+
+    let multiplicador = 1;
+    let multiplicando = 5;
+
+    while (multiplicador <= 10) {
+        if (multiplicador == 1) {
+            imprimir("La tabla del " + multiplicando);
+        }
+        imprimir(multiplicador + " * " + multiplicando + " = " + multiplicando * multiplicador);
+        multiplicador++;
+    }
+
+    for (let multr = 1; multr <= 10; multr++) {
+        if (multr == 1) {
+            imprimir("La tabla del " + multiplicando);
+        }
+        imprimir(multr + " * " + multiplicando + " = " + multr * multiplicando);
+    }
+
+</script>
