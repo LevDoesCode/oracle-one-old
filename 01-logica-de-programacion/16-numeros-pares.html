@@ -1,0 +1,25 @@
+<meta charset="UTF-8">
+
+<h3>Numeros pares 2-100</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write(frase);
+        saltarLinea(1);
+    }
+
+    let num = 2;
+
+    while (num <= 100) {
+        imprimir(num);
+        num += 2;
+    }
+
+</script>
