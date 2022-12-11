@@ -12,7 +12,7 @@
 
     function imprimir(frase) {
         document.write(frase);
-        saltarLineaHTML(3);
+        saltarLinea(3);
     }
 
     // texto * numero = numero
@@ -25,5 +25,15 @@
     let puntosTotal = victorias * 3 + empates;
 
     imprimir("El total de puntos del equipo es: " + puntosTotal);
-
+    let puntosPasado = 28;
+    if (puntosTotal > puntosPasado) {
+        imprimir("El equipo esta mejor que el año pasado");
+    }
+    else if (puntosTotal == puntosPasado) {
+        imprimir("El equipo esta igual que el año pasado");
+    }
+    else {
+        imprimir("El equipo esta peor que el año pasado");
+    }
+    
 </script>
