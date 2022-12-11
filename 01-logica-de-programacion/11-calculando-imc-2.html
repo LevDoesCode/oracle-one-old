@@ -1,0 +1,52 @@
+<meta charset="UTF-8">
+
+<h3>Calculando IMC</h3>
+
+<script>
+
+    function saltarLineaHTML(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write("<big>" + frase + "</big>");
+        saltarLineaHTML(3);
+    }
+
+    // Esta funcion calcula el IMC
+    function calcularIMC(peso, altura) {
+        return Math.round(peso / (altura ** 2));
+    }
+
+
+    let miNombre = prompt("Cual es su nombre?");
+    let miPeso = prompt("Cual es su peso?");
+    let miAltura = prompt("Cual es su altura?")
+    let miIMC = calcularIMC(miPeso, miAltura)
+
+    imprimir("El IMC de " + miNombre + " es " + miIMC);
+
+    if (miIMC < 18.5) {
+        termino = "Insuficiencia ponderal";
+    }
+    else if (miIMC >= 18.5 && miIMC < 25) {
+        termino = "Intervalo normal";
+    }
+    else if (miIMC >= 25 && miIMC < 30) {
+        termino = "Sobrepeso";
+    }
+    else if (miIMC >= 30 && miIMC < 35) {
+        termino = "Obesidad de clase I";
+    }
+    else if (miIMC >= 35 && miIMC < 40) {
+        termino = "Obesidad de clase II";
+    }
+    else if (miIMC >= 40) {
+        termino = "Obesidad de clase III";
+    }
+
+    imprimir("Su IMC es condiderado como " + termino + ".");
+
+</script>
