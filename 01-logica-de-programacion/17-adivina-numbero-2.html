@@ -1,0 +1,40 @@
+<meta charset="UTF-8">
+
+<h3>Adivina el numero</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write("<big>" + frase + "</big>");
+        saltarLinea(3);
+    }
+
+    let maxIntentos = 3;
+    let intento = 1;
+    let numeroSecreto = Math.round(Math.random() * 10);
+
+    while (intento <= maxIntentos) {
+
+        var numeroUsuario = parseInt(prompt("Ingrese un numero entre 0-10"));
+
+        if (numeroSecreto == numeroUsuario) {
+            alert("Correcto! El numero secreto era " + numeroSecreto + ". Intento numero " + intento);
+            break;
+        }
+        else {
+            alert("Error! Le quedan " + (maxIntentos - intento) + " intentos");
+        }
+        intento++;
+    }
+
+    if (numeroUsuario == numeroSecreto) {
+        imprimir("El numero secreto era " + numeroSecreto);
+    }
+
+</script>
