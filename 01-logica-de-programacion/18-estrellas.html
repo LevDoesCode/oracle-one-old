@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+
+<h3>Adivina el numero</h3>
+
+<script>
+
+    function saltarLinea(veces) {
+        for (let i = 0; i < veces; i++) {
+            document.write("<br>");
+        }
+    }
+
+    function imprimir(frase) {
+        document.write(frase);
+        saltarLinea(1);
+    }
+
+    let lineas = parseInt(prompt("Cuantas lineas desea?"));
+    let estrellas = parseInt(prompt("Cuantos asteriscos desea?"));
+
+    for (let i = 0; i < lineas; i++) {
+        for (let j = 0; j < estrellas; j++) {
+            document.write("*");
+        }
+        saltarLinea(1);
+    }
+    saltarLinea(2);
+    imprimir("Fin!");
+
+</script>
