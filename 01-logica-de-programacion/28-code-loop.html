@@ -1,0 +1,17 @@
+<meta charset="UTF-8">
+<canvas width="450" height="450"></canvas>
+
+<script>
+    function drawCrimsonRect(x, y, color) {
+        let canvas = document.querySelector("canvas");
+        let brush = canvas.getContext("2d");
+        brush.fillStyle = color;
+        brush.strokeStyle = "black";
+        brush.fillRect(x, y, 50, 50);
+        brush.strokeRect(x, y, 50, 50);
+    }
+
+    drawCrimsonRect(0, 0, "crimson");
+    drawCrimsonRect(0, 50, "gold");
+    drawCrimsonRect(0, 100, "darkgreen");
+</script>
