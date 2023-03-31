@@ -33,3 +33,8 @@ Configure the PATH
 * Run the file (doesn't need .class extension
   
   `java myfile`
+
+## Casting & Sizes
+
+![](00-files/casting.png)
+![](00-files/sizes.png)
