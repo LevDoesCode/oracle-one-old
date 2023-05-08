@@ -16,7 +16,7 @@ class Account {
 	double balance;
 	int branch;
 	int number;
-	String owner;
+	Client owner;
 
 	void deposit(double amount) {
 		this.balance += amount;
@@ -38,4 +38,11 @@ class Account {
 		sender.balance -= amount;
 		return true;
 	}
+}
+
+class AccountDefault {
+	double balance;
+	int branch;
+	int number;
+	Client owner = new Client();
 }
