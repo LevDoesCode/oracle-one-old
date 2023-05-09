@@ -9,7 +9,7 @@ class Account {
 	private double balance;
 	private int branch;
 	private int number;
-	Client owner;
+	private Client owner;
 
 	void deposit(double amount) {
 		this.balance += amount;
@@ -45,5 +45,13 @@ class Account {
 	
 	public int getBranch() {
 		return this.branch;
+	}
+	
+	public void setOwner(Client owner) {
+		this.owner = owner;
+	}
+	
+	public Client getOwner() {
+		return this.owner;
 	}
 }
