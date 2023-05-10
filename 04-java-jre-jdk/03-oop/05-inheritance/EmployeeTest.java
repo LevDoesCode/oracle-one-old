@@ -1,7 +1,7 @@
 
 public class ClerkTest {
 	public static void main(String[] args) {
-		Clerk joe = new Clerk();
+		Employee joe = new Employee();
 		joe.setName("Joe");
 		joe.setId("112233");
 		joe.setSalary(3000);

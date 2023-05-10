@@ -1,5 +1,5 @@
 
-public class Clerk {
+public class Employee {
 	private String name;
 	private String id;
 	private double salary;
@@ -9,7 +9,7 @@ public class Clerk {
 		return name;
 	}
 
-	public Clerk() {
+	public Employee() {
 
 	}
 
