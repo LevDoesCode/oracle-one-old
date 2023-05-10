@@ -42,14 +42,6 @@ public class Employee {
 	}
 
 	public double getBonus() {
-		// type 0 = clerk
-		// type 1 = Manager
-		if (this.type == 0) {
-			return this.salary * 0.10;
-		} else if (this.type == 1) {
-			return this.salary;
-		} else {
-			return 0;
-		}
+		return this.salary * 0.10;
 	}
 }
