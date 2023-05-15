@@ -3,6 +3,11 @@ public class Client implements EmployeeLoginAble {
 	private String name;
 	private String id;
 	private String phone;
+	private UtilsAuth utilAuth;
+
+	public Client() {
+		this.utilAuth = new UtilsAuth();
+	}
 
 	public String getName() {
 		return this.name;
@@ -30,13 +35,11 @@ public class Client implements EmployeeLoginAble {
 
 	@Override
 	public void setPassword(String password) {
-		// TODO Auto-generated method stub
-
+		this.utilAuth.setPassword(password);
 	}
 
 	@Override
 	public boolean login(String password) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.utilAuth.login(password);
 	}
 }

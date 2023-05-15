@@ -1,15 +1,19 @@
 
 public class Manager extends Employee implements EmployeeLoginAble {
-	private String password;
+	private UtilsAuth utilAuth;
+
+	public Manager() {
+		this.utilAuth = new UtilsAuth();
+	}
 
 	@Override
 	public void setPassword(String password) {
-		this.password = password;
+		this.utilAuth.setPassword(password);
 	}
 
 	@Override
 	public boolean login(String password) {
-		return this.password == password;
+		return this.utilAuth.login(password);
 	}
 
 	// We're using function overriding

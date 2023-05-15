@@ -1,6 +1,12 @@
 
 public class Administrator extends Employee implements EmployeeLoginAble {
 
+	private UtilsAuth utilAuth;
+
+	public Administrator() {
+		this.utilAuth = new UtilsAuth();
+	}
+
 	@Override
 	public double getBonus() {
 		return 0;
@@ -8,14 +14,12 @@ public class Administrator extends Employee implements EmployeeLoginAble {
 
 	@Override
 	public void setPassword(String password) {
-		// TODO Auto-generated method stub
-
+		this.utilAuth.setPassword(password);
 	}
 
 	@Override
 	public boolean login(String password) {
-		// TODO Auto-generated method stub
-		return true;
+		return this.utilAuth.login(password);
 	}
 
 }
