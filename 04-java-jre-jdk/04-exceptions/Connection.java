@@ -1,7 +1,8 @@
 
-public class Connection {
+public class Connection implements AutoCloseable {
 	public Connection() {
 		System.out.println("Connection start");
+		// throw new IllegalStateException("Bad data");
 	}
 
 	public void ConnectionReadData() {
@@ -11,5 +12,10 @@ public class Connection {
 
 	public void ConnectionClose() {
 		System.out.println("Connection end");
+	}
+
+	@Override
+	public void close() throws Exception {
+		ConnectionClose();
 	}
 }
