@@ -1,6 +1,6 @@
 package collections;
 
-public class Subject {
+public class Subject implements Comparable<Subject> {
 	private String name;
 	private int length;
 
@@ -18,7 +18,7 @@ public class Subject {
 		this.name = name;
 	}
 
-	public int getLenght() {
+	public int getLength() {
 		return length;
 	}
 
@@ -29,6 +29,11 @@ public class Subject {
 	@Override // optional
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public int compareTo(Subject o) {
+		return this.name.compareTo(o.getName());
 	}
 
 }
