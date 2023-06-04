@@ -1,5 +1,6 @@
 package collections;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class Path implements Comparable<Path> {
 
 	public List<Subject> getSubjectList() {
 		return subjectList;
+	}
+
+	public List<Subject> getUnmodSubjectList() {
+		return Collections.unmodifiableList(this.subjectList);
 	}
 
 	public void setSubjectList(List<Subject> subjectList) {
