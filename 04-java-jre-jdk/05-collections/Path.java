@@ -1,6 +1,8 @@
 package collections;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Path implements Comparable<Path> {
 	private int length;
 	// private List<Subject> subjectList = new ArrayList<>();
 	private List<Subject> subjectList = new LinkedList<>();
+	private Collection<Student> students = new HashSet<>();
 
 	public Path(String name, int length) {
 		super();
@@ -58,6 +61,18 @@ public class Path implements Comparable<Path> {
 
 	public void addSubject(Subject subject) {
 		this.subjectList.add(subject);
+	}
+
+	public void addStudent(Student student) {
+		this.students.add(student);
+	}
+
+	public boolean checkStudent(Student student) {
+		return this.students.contains(student);
+	}
+
+	public Collection<Student> getStudents() {
+		return students;
 	}
 
 	@Override
