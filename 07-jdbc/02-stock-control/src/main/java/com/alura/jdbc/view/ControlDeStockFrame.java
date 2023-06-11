@@ -184,11 +184,17 @@ public class ControlDeStockFrame extends JFrame {
 
 		Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
 				.ifPresentOrElse(fila -> {
-					Integer id = (Integer) modelo.getValueAt(tabla.getSelectedRow(), 0);
-					String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
-					String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
+					Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+					String nombre = modelo.getValueAt(tabla.getSelectedRow(), 1).toString();
+					String descripcion = modelo.getValueAt(tabla.getSelectedRow(), 2).toString();
 
-					this.productoController.modificar(nombre, descripcion, id);
+					try {
+						System.out.println(nombre + descripcion + id);
+						this.productoController.modificar(nombre, descripcion, id);
+
+					} catch (SQLException e) {
+						throw new RuntimeException(e);
+					}
 				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
 
@@ -200,13 +206,18 @@ public class ControlDeStockFrame extends JFrame {
 
 		Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
 				.ifPresentOrElse(fila -> {
-					Integer id = (Integer) modelo.getValueAt(tabla.getSelectedRow(), 0);
+					Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
 
-					this.productoController.eliminar(id);
+					int cantidadEliminada = 0;
+					try {
+						cantidadEliminada = this.productoController.eliminar(id);
+					} catch (SQLException e) {
+						throw new RuntimeException(e);
+					}
 
 					modelo.removeRow(tabla.getSelectedRow());
 
-					JOptionPane.showMessageDialog(this, "Item eliminado con éxito!");
+					JOptionPane.showMessageDialog(this, cantidadEliminada + " eliminado con éxito!");
 				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
 

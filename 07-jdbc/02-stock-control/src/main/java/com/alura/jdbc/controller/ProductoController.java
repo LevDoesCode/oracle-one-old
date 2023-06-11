@@ -13,12 +13,22 @@ import com.alura.jdbc.factory.ConnectionFactory;
 
 public class ProductoController {
 
-	public void modificar(String nombre, String descripcion, Integer id) {
-		// TODO
+	public int modificar(String nombre, String descripcion, Integer id) throws SQLException {
+		Connection conn = new ConnectionFactory().GetConnection();
+		Statement statement = conn.createStatement();
+		String query1 = "UPDATE products SET NAME = '" + nombre + "', DESCRIPTION = '" + descripcion + "' WHERE ID = "
+				+ id;
+		int updateCount = statement.getUpdateCount();
+		return updateCount;
 	}
 
-	public void eliminar(Integer id) {
-		// TODO
+	public int eliminar(Integer id) throws SQLException {
+		Connection conn = new ConnectionFactory().GetConnection();
+		Statement statement = conn.createStatement();
+		String query1 = "DELETE FROM products WHERE ID = " + id;
+		statement.execute(query1);
+		int updateCount = statement.getUpdateCount();
+		return updateCount;
 	}
 
 	public List<Map<String, String>> listar() throws SQLException {
