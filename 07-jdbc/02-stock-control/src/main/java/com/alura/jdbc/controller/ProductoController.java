@@ -15,49 +15,64 @@ import com.alura.jdbc.factory.ConnectionFactory;
 public class ProductoController {
 
 	public int modificar(String nombre, String descripcion, Integer cantidad, Integer id) throws SQLException {
-		Connection conn = new ConnectionFactory().GetConnection();
-		PreparedStatement statement = conn.prepareStatement(
-				"UPDATE products SET " + "NAME = ?, " + "DESCRIPTION = ?," + "QUANTITY = ? " + "WHERE ID = ?");
-		statement.setString(1, nombre);
-		statement.setString(2, descripcion);
-		statement.setInt(3, cantidad);
-		statement.setInt(4, id);
-		int updateCount = statement.getUpdateCount();
-		return updateCount;
+		final Connection conn = new ConnectionFactory().GetConnection();
+
+		try (conn) {
+			final PreparedStatement statement = conn.prepareStatement(
+					"UPDATE products SET " + "NAME = ?, " + "DESCRIPTION = ?," + "QUANTITY = ? " + "WHERE ID = ?");
+
+			try (statement) {
+				statement.setString(1, nombre);
+				statement.setString(2, descripcion);
+				statement.setInt(3, cantidad);
+				statement.setInt(4, id);
+				int updateCount = statement.getUpdateCount();
+				return updateCount;
+			}
+		}
 	}
 
 	public int eliminar(Integer id) throws SQLException {
-		Connection conn = new ConnectionFactory().GetConnection();
-		PreparedStatement statement = conn.prepareStatement("DELETE FROM products WHERE ID = ?");
-		statement.setInt(1, id);
-		statement.execute();
-		int updateCount = statement.getUpdateCount();
-		return updateCount;
+		final Connection conn = new ConnectionFactory().GetConnection();
+
+		try (conn) {
+			final PreparedStatement statement = conn.prepareStatement("DELETE FROM products WHERE ID = ?");
+
+			try (statement) {
+				statement.setInt(1, id);
+				statement.execute();
+				int updateCount = statement.getUpdateCount();
+				return updateCount;
+			}
+		}
 	}
 
 	public List<Map<String, String>> listar() throws SQLException {
-		Connection conn = new ConnectionFactory().GetConnection();
+		final Connection conn = new ConnectionFactory().GetConnection();
 
-		PreparedStatement statement = conn.prepareStatement("SELECT ID, NAME, DESCRIPTION, QUANTITY FROM PRODUCTS");
-		boolean executeResult = statement.execute(); // true if we got a list as a result
+		try (conn) {
+			final PreparedStatement statement = conn
+					.prepareStatement("SELECT ID, NAME, DESCRIPTION, QUANTITY FROM PRODUCTS");
 
-		ResultSet resultSet = statement.getResultSet();
-		List<Map<String, String>> result = new ArrayList<>();
+			try (statement) {
+				boolean executeResult = statement.execute(); // true if we got a list as a result
 
-		while (resultSet.next()) {
-			// resultSet.getInt(0); // Same as using "ID"
-			Map<String, String> row = new HashMap<>();
-			row.put("ID", String.valueOf(resultSet.getInt("ID")));
-			row.put("NAME", String.valueOf(resultSet.getString("NAME")));
-			row.put("DESCRIPTION", String.valueOf(resultSet.getString("DESCRIPTION")));
-			row.put("QUANTITY", String.valueOf(resultSet.getInt("QUANTITY")));
-			result.add(row);
+				ResultSet resultSet = statement.getResultSet();
+				List<Map<String, String>> result = new ArrayList<>();
+
+				while (resultSet.next()) {
+					// resultSet.getInt(0); // Same as using "ID"
+					Map<String, String> row = new HashMap<>();
+					row.put("ID", String.valueOf(resultSet.getInt("ID")));
+					row.put("NAME", String.valueOf(resultSet.getString("NAME")));
+					row.put("DESCRIPTION", String.valueOf(resultSet.getString("DESCRIPTION")));
+					row.put("QUANTITY", String.valueOf(resultSet.getInt("QUANTITY")));
+					result.add(row);
+				}
+				return result;
+			}
 		}
 
-		System.out.println(result);
-
-		conn.close();
-		return result;
 	}
 
 	public void guardar(Map<String, String> producto) throws SQLException {
@@ -66,27 +81,28 @@ public class ProductoController {
 		Integer cantidad = Integer.valueOf(producto.get("QUANTITY"));
 		Integer maximoCantidad = 50;
 
-		Connection conn = new ConnectionFactory().GetConnection();
-		conn.setAutoCommit(false); // Cancel auto commit after each statement execute
+		final Connection conn = new ConnectionFactory().GetConnection();
 
-		PreparedStatement statement = conn.prepareStatement(
-				"INSERT INTO products " + "(name, description, quantity) " + "VALUES(?, ?, ?)",
-				Statement.RETURN_GENERATED_KEYS);
-		try {
-			do {
-				int cantidadParaGuardar = Math.min(cantidad, maximoCantidad);
-				ejecutaRegistro(nombre, descripcion, cantidadParaGuardar, statement);
-				cantidad -= cantidadParaGuardar;
-			} while (cantidad > 0);
-			conn.commit();
-			System.out.println("commited");
-		} catch (Exception e) {
-			System.out.println("Rollback");
-			conn.rollback();
+		try (conn) {
+			conn.setAutoCommit(false); // Cancel auto commit after each statement execute
+
+			final PreparedStatement statement = conn.prepareStatement(
+					"INSERT INTO products " + "(name, description, quantity) " + "VALUES(?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+
+			try (statement) {
+				do {
+					int cantidadParaGuardar = Math.min(cantidad, maximoCantidad);
+					ejecutaRegistro(nombre, descripcion, cantidadParaGuardar, statement);
+					cantidad -= cantidadParaGuardar;
+				} while (cantidad > 0);
+				conn.commit();
+				System.out.println("commited");
+			} catch (Exception e) {
+				conn.rollback();
+				System.out.println("Rollback");
+			}
 		}
-
-		statement.close();
-		conn.close();
 	}
 
 	private void ejecutaRegistro(String nombre, String descripcion, Integer cantidad, PreparedStatement statement)
@@ -100,11 +116,24 @@ public class ProductoController {
 
 		statement.execute();
 
-		ResultSet result = statement.getGeneratedKeys();
-
-		while (result.next()) {
-			System.out.println(String.format("Inserted with ID %d", result.getInt(1)));
+		// try with resources, java 7+
+		try (ResultSet result = statement.getGeneratedKeys();) {
+			while (result.next()) {
+				System.out.println(String.format("Inserted with ID %d", result.getInt(1)));
+				// no need to close result explicitly
+			}
 		}
+
+		// try with resources, java 9+
+		final ResultSet result = statement.getGeneratedKeys();
+		try (result) {
+			while (result.next()) {
+				System.out.println(String.format("Inserted with ID %d", result.getInt(1)));
+				// no need to close result explicitly
+			}
+		}
+
+		// result.close(); // not needed and out of scope
 	}
 
 }
