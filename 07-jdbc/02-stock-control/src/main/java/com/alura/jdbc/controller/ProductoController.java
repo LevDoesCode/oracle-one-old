@@ -1,6 +1,7 @@
 package com.alura.jdbc.controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,20 +14,23 @@ import com.alura.jdbc.factory.ConnectionFactory;
 
 public class ProductoController {
 
-	public int modificar(String nombre, String descripcion, Integer id) throws SQLException {
+	public int modificar(String nombre, String descripcion, Integer cantidad, Integer id) throws SQLException {
 		Connection conn = new ConnectionFactory().GetConnection();
-		Statement statement = conn.createStatement();
-		String query1 = "UPDATE products SET NAME = '" + nombre + "', DESCRIPTION = '" + descripcion + "' WHERE ID = "
-				+ id;
+		PreparedStatement statement = conn.prepareStatement(
+				"UPDATE products SET " + "NAME = ?, " + "DESCRIPTION = ?," + "QUANTITY = ? " + "WHERE ID = ?");
+		statement.setString(1, nombre);
+		statement.setString(2, descripcion);
+		statement.setInt(3, cantidad);
+		statement.setInt(4, id);
 		int updateCount = statement.getUpdateCount();
 		return updateCount;
 	}
 
 	public int eliminar(Integer id) throws SQLException {
 		Connection conn = new ConnectionFactory().GetConnection();
-		Statement statement = conn.createStatement();
-		String query1 = "DELETE FROM products WHERE ID = " + id;
-		statement.execute(query1);
+		PreparedStatement statement = conn.prepareStatement("DELETE FROM products WHERE ID = ?");
+		statement.setInt(1, id);
+		statement.execute();
 		int updateCount = statement.getUpdateCount();
 		return updateCount;
 	}
@@ -34,9 +38,8 @@ public class ProductoController {
 	public List<Map<String, String>> listar() throws SQLException {
 		Connection conn = new ConnectionFactory().GetConnection();
 
-		Statement statement = conn.createStatement();
-		String query1 = "SELECT ID, NAME, DESCRIPTION, QUANTITY FROM PRODUCTS";
-		boolean executeResult = statement.execute(query1); // true if we got a list as a result
+		PreparedStatement statement = conn.prepareStatement("SELECT ID, NAME, DESCRIPTION, QUANTITY FROM PRODUCTS");
+		boolean executeResult = statement.execute(); // true if we got a list as a result
 
 		ResultSet resultSet = statement.getResultSet();
 		List<Map<String, String>> result = new ArrayList<>();
@@ -60,12 +63,14 @@ public class ProductoController {
 	public void guardar(Map<String, String> producto) throws SQLException {
 		Connection conn = new ConnectionFactory().GetConnection();
 
-		Statement statement = conn.createStatement();
-
-		statement.execute(
-				"INSERT INTO products (name, description, quantity) " + " VALUES('" + producto.get("NAME") + "', '"
-						+ producto.get("DESCRIPTION") + "', " + producto.get("QUANTITY") + ")",
+		PreparedStatement statement = conn.prepareStatement(
+				"INSERT INTO products " + "(name, description, quantity) " + "VALUES(?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
+		statement.setString(1, producto.get("NAME"));
+		statement.setString(2, producto.get("DESCRIPTION"));
+		statement.setInt(3, Integer.valueOf(producto.get("QUANTITY")));
+
+		statement.execute();
 
 		ResultSet result = statement.getGeneratedKeys();
 
