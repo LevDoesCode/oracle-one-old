@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Optional;
 
 import javax.swing.JButton;
@@ -19,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.alura.jdbc.controller.CategoriaController;
 import com.alura.jdbc.controller.ProductoController;
+import com.alura.jdbc.model.Product;
 
 public class ControlDeStockFrame extends JFrame {
 
@@ -255,10 +255,9 @@ public class ControlDeStockFrame extends JFrame {
 		}
 
 		// TODO
-		var producto = new HashMap<String, String>();
-		producto.put("NAME", textoNombre.getText());
-		producto.put("DESCRIPTION", textoDescripcion.getText());
-		producto.put("QUANTITY", String.valueOf(cantidadInt));
+
+		var producto = new Product(textoNombre.getText(), textoDescripcion.getText(), cantidadInt);
+
 		var categoria = comboCategoria.getSelectedItem();
 
 		try {
