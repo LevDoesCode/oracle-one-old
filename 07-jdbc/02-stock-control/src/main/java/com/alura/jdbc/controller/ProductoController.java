@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alura.jdbc.dao.ProductDAO;
 import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.model.Product;
 
@@ -77,54 +77,8 @@ public class ProductoController {
 	}
 
 	public void guardar(Product producto) throws SQLException {
-		String nombre = producto.getNombre();
-		String descripcion = producto.getDescripcion();
-		Integer cantidad = producto.getCantidad();
-
-		final Connection conn = new ConnectionFactory().GetConnection();
-
-		try (conn) {
-			conn.setAutoCommit(false); // Cancel auto commit after each statement execute
-
-			final PreparedStatement statement = conn.prepareStatement(
-					"INSERT INTO products " + "(name, description, quantity) " + "VALUES(?, ?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
-
-			try (statement) {
-				ejecutaRegistro(producto, statement);
-				conn.commit();
-			} catch (Exception e) {
-				conn.rollback();
-			}
-		}
-	}
-
-	private void ejecutaRegistro(Product producto, PreparedStatement statement) throws SQLException {
-		statement.setString(1, producto.getNombre());
-		statement.setString(2, producto.getDescripcion());
-		statement.setInt(3, producto.getCantidad());
-
-		statement.execute();
-
-		// try with resources, java 7+
-		try (ResultSet result = statement.getGeneratedKeys();) {
-			while (result.next()) {
-				System.out.println(String.format("Inserted with ID %d", result.getInt(1)));
-				// no need to close result explicitly
-			}
-		}
-
-		// try with resources, java 9+
-		final ResultSet result = statement.getGeneratedKeys();
-		try (result) {
-			while (result.next()) {
-				producto.setId(result.getInt(1));
-				System.out.println(String.format("New product added: %s", producto));
-				// no need to close result explicitly
-			}
-		}
-
-		// result.close(); // not needed and out of scope
+		ProductDAO productDAO = new ProductDAO(new ConnectionFactory().GetConnection());
+		productDAO.guardar(producto);
 	}
 
 }
