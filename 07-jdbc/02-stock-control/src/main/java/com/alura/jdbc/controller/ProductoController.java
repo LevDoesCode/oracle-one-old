@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alura.jdbc.factory.ConnectionFactory;
+import com.alura.jdbc.model.Product;
 
 public class ProductoController {
 
@@ -75,11 +76,10 @@ public class ProductoController {
 
 	}
 
-	public void guardar(Map<String, String> producto) throws SQLException {
-		String nombre = producto.get("NAME");
-		String descripcion = producto.get("DESCRIPTION");
-		Integer cantidad = Integer.valueOf(producto.get("QUANTITY"));
-		Integer maximoCantidad = 50;
+	public void guardar(Product producto) throws SQLException {
+		String nombre = producto.getNombre();
+		String descripcion = producto.getDescripcion();
+		Integer cantidad = producto.getCantidad();
 
 		final Connection conn = new ConnectionFactory().GetConnection();
 
@@ -91,28 +91,18 @@ public class ProductoController {
 					Statement.RETURN_GENERATED_KEYS);
 
 			try (statement) {
-				do {
-					int cantidadParaGuardar = Math.min(cantidad, maximoCantidad);
-					ejecutaRegistro(nombre, descripcion, cantidadParaGuardar, statement);
-					cantidad -= cantidadParaGuardar;
-				} while (cantidad > 0);
+				ejecutaRegistro(producto, statement);
 				conn.commit();
-				System.out.println("commited");
 			} catch (Exception e) {
 				conn.rollback();
-				System.out.println("Rollback");
 			}
 		}
 	}
 
-	private void ejecutaRegistro(String nombre, String descripcion, Integer cantidad, PreparedStatement statement)
-			throws SQLException {
-		if (cantidad < 50) {
-			throw new RuntimeException("New error registering");
-		}
-		statement.setString(1, nombre);
-		statement.setString(2, descripcion);
-		statement.setInt(3, cantidad);
+	private void ejecutaRegistro(Product producto, PreparedStatement statement) throws SQLException {
+		statement.setString(1, producto.getNombre());
+		statement.setString(2, producto.getDescripcion());
+		statement.setInt(3, producto.getCantidad());
 
 		statement.execute();
 
@@ -128,7 +118,8 @@ public class ProductoController {
 		final ResultSet result = statement.getGeneratedKeys();
 		try (result) {
 			while (result.next()) {
-				System.out.println(String.format("Inserted with ID %d", result.getInt(1)));
+				producto.setId(result.getInt(1));
+				System.out.println(String.format("New product added: %s", producto));
 				// no need to close result explicitly
 			}
 		}
